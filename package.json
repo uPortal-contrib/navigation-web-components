@@ -1,0 +1,143 @@
+{
+    "private": true,
+    "devDependencies": {
+        "@commitlint/cli": "^7.2.1",
+        "@commitlint/config-conventional": "^7.0.0",
+        "@commitlint/travis-cli": "^7.2.1",
+        "@mapbox/stylelint-processor-arbitrary-tags": "^0.2.0",
+        "@vue/eslint-config-prettier": "^4.0.0",
+        "babel-eslint": "^10.0.0",
+        "eslint": "^5.7.0",
+        "eslint-config-google": "^0.13.0",
+        "eslint-plugin-flowtype": "^3.0.0",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-vue": "^5.0.0-beta.3",
+        "lerna": "^3.4.0",
+        "lerna-webjar": "^1.1.1",
+        "lint-staged": "^8.0.0",
+        "npm-run-all": "^4.1.5",
+        "prettier-eslint-cli": "^4.7.1",
+        "prettier-stylelint": "^0.4.2",
+        "remark-cli": "^6.0.0",
+        "remark-preset-lint-recommended": "^3.0.1",
+        "remark-validate-links": "^8.0.0",
+        "stylelint": "^10.0.0",
+        "stylelint-config-standard": "^18.2.0",
+        "yorkie": "^2.0.0"
+    },
+    "scripts": {
+        "bootstrap": "lerna bootstrap --ci",
+        "prebuild": "rm -rf \"**/node_modules\" && npm ci && lerna bootstrap --ci",
+        "build": "lerna run build",
+        "ci:commitlint": "commitlint-travis",
+        "format": "run-p format:*",
+        "format:js": "prettier-eslint --write '**/*.{js,vue}'",
+        "format:md": "prettier --write '**/*.md'",
+        "format:html": "prettier --write '**/*.html'",
+        "format:css": "prettier-stylelint --write '**/*.css'",
+        "lint": "run-s lint:*",
+        "lint:js": "eslint --ext vue .",
+        "lint:css": "stylelint '**/*.{css,scss,vue}' --syntax scss",
+        "lint:md": "remark --frail '*.md' 'docs/**/*.md' '@uportal/*/*.md'",
+        "start": "lerna run start",
+        "test": "run-s test:* lint:*",
+        "test:packages": "lerna run test",
+        "publish-webjar": "lerna-webjar"
+    },
+    "workspaces": [
+        "@uportal/*"
+    ],
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
+    "eslintConfig": {
+        "root": true,
+        "parserOptions": {
+            "parser": "babel-eslint"
+        },
+        "extends": [
+            "plugin:vue/strongly-recommended",
+            "eslint:recommended",
+            "google"
+        ],
+        "env": {
+            "node": true,
+            "browser": true,
+            "es6": true
+        },
+        "rules": {
+            "no-invalid-this": "off",
+            "require-jsdoc": "off",
+            "max-len": "off",
+            "no-console": "warn",
+            "vue/html-closing-bracket-newline": "warn"
+        }
+    },
+    "prettier": {
+        "singleQuote": true,
+        "tabWidth": 4,
+        "jsxBracketSameLine": true,
+        "printWidth": 100
+    },
+    "gitHooks": {
+        "commit-msg": "commitlint -e",
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{js,vue}": [
+            "prettier-eslint --write",
+            "git add"
+        ],
+        "*.css": [
+            "prettier-stylelint --write",
+            "git add"
+        ],
+        "*.scss": [
+            "prettier --write --parser scss",
+            "stylelint --syntax scss",
+            "git add"
+        ],
+        "*.{html,md,json}": [
+            "prettier --write",
+            "git add"
+        ]
+    },
+    "stylelint": {
+        "processors": [
+            "@mapbox/stylelint-processor-arbitrary-tags"
+        ],
+        "extends": "stylelint-config-standard",
+        "rules": {
+            "no-empty-source": null,
+            "no-descending-specificity": null,
+            "indentation": 4
+        }
+    },
+    "remarkConfig": {
+        "plugins": [
+            "preset-lint-recommended",
+            "validate-links",
+            [
+                "remark-lint-list-item-indent",
+                false
+            ]
+        ]
+    },
+    "renovate": {
+        "extends": [
+            "config:base",
+            ":rebaseStalePrs",
+            ":preserveSemverRanges"
+        ],
+        "lockFileMaintenance": {
+            "enabled": true
+        }
+    },
+    "engines": {
+        "node": "^10.0.0 || ^11.0.0",
+        "npm": "^6.5.0"
+    },
+    "dependencies": {}
+}

@@ -1,0 +1,6 @@
+/*
+ * Each of the following subprojects can be built & deployed to the local Maven repository using
+ * Gradle.
+ */
+
+include '@uportal:context-menu-navigation'
