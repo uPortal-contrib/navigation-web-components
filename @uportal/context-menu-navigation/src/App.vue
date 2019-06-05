@@ -1,6 +1,12 @@
 <template>
     <div class="container">
-        <context-menu-navigation layout-api-url="layout.json" debug></context-menu-navigation>
+        <context-menu-navigation
+            ignore="myHome"
+            layout-api-url="layout.json"
+            portlet-api-url="portletRegistry.json"
+            class="context-menu-nav"
+            debug
+        ></context-menu-navigation>
     </div>
 </template>
 
@@ -14,3 +20,23 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+html {
+    font-size: 14px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+    color: white;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+}
+
+.context-menu-nav {
+    --cm-menu-bg-color: #bbb;
+}
+</style>
