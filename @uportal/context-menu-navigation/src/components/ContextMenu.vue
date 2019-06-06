@@ -3,11 +3,12 @@
         :class="{ show: isOpen }"
         class="dropdown-menu context-menu"
         role="navigation"
+        ref="context-menu"
         @keydown="handleKeyDown"
     >
         <template v-for="(column, columnIndex) in tab.content">
-            <li class="dropdown-header" :key="columnIndex">
-                <h6>{{ column.name }}</h6>
+            <li class="dropdown-header mt-4" :key="columnIndex">
+                <h6 class="mb-0">{{ column.name }}</h6>
             </li>
             <li
                 v-for="(content, contentIndex) in column.content"
@@ -29,7 +30,7 @@
                 <div
                     :class="{ show: selected === content.fname }"
                     class="dropdown-menu context-menu"
-                    :style="{ transform: 'translateY(' + offset + ')' }"
+                    :style="{ transform: 'translateY(' + offset + ')', minHeight: height }"
                     v-if="portletContent && !!portletContent.description"
                 >
                     <div
@@ -144,6 +145,9 @@ export default {
         offset() {
             return this.selected ? -this.$refs['content-' + this.selected][0].offsetTop + 'px' : 0;
         },
+        height() {
+            return this.$refs['context-menu'].clientHeight + 'px';
+        },
         ignoreFolders() {
             return this.ignore.split(',');
         },
@@ -166,6 +170,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '../variables.scss';
 .navigation .dropdown-menu.context-menu /deep/,
 .dropdown-menu.context-menu /deep/ {
     width: 100%;
@@ -173,14 +178,22 @@ export default {
     border: var(--cm-menu-border, none);
     border-radius: 0;
     border-radius: var(--cm-menu-border-radius, 0);
-
-    background: #bbb;
-    background: var(--cm-menu-bg-color, #bbb);
+    background: $grey;
+    background: var(--cm-menu-bg-color, $grey);
     margin: 0;
     padding-top: 0;
+    box-sizing: border-box;
+
+    .dropdown-header > h6 {
+        color: darken($white, 20%);
+    }
 
     > .dropdown-submenu {
+        color: $white;
+
         > .dropdown-item {
+            color: $white;
+
             &.active,
             &:focus,
             &:hover {
@@ -195,10 +208,8 @@ export default {
             background: black;
             background: var(--cm-submenu-bg-color, black);
             margin: 0;
-            &,
-            & pre {
-                color: var(--cm-submenu-fg-color, white);
-            }
+            min-height: 100%;
+            color: var(--cm-submenu-fg-color, white);
         }
 
         .portlet-content {
