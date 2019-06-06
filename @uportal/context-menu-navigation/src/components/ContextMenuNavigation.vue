@@ -1,5 +1,10 @@
 <template>
-    <nav class="navigation" @keydown.escape="closeTabs()" ref="navigation">
+    <nav
+        class="navigation"
+        @keydown.escape="closeTabs()"
+        @mouseleave="closeTabs()"
+        ref="navigation"
+    >
         <ul class="nav nav-pills nav-justified">
             <li
                 v-for="(tab, tabIndex) in tabs"
@@ -42,7 +47,6 @@ import ky from 'ky';
 import { portletRegistryToArray } from '@uportal/portlet-registry-to-array';
 
 import ContextMenu from './ContextMenu';
-import { setTimeout } from 'timers';
 
 Vue.use(AsyncComputed);
 
@@ -162,18 +166,23 @@ export default {
             max-width: 50%;
             > .nav-link {
                 text-align: left;
+                text-align: var(--cm-nav-item-text-align, left);
                 padding: 7px 21px;
+                padding: var(--cm-nav-item-padding, 7px 21px);
             }
             &.show > .nav-link,
             > .nav-link:focus {
                 background-color: #bbb;
+                background-color: var(--cm-nav-item-active-bg-color, #bbb);
                 border-radius: 0;
                 color: white;
+                color: var(--cm-nav-item-active-fg-color, white);
             }
         }
         .dropdown-toggle::before,
         .dropdown-toggle::after {
             display: none !important;
+            display: var(--cm-nav-item-caret-display, none !important);
         }
     }
 }

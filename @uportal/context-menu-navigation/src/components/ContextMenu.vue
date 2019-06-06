@@ -18,7 +18,8 @@
             >
                 <a
                     class="dropdown-item dropdown-toggle"
-                    href="#"
+                    :href="content.parameters.alternativeMaximizedLink"
+                    :target="content.parameters.target"
                     :ref="content.fname"
                     @mouseover="toggleContent(content)"
                     @focus="toggleContent(content)"
@@ -29,6 +30,7 @@
                     :class="{ show: selected === content.fname }"
                     class="dropdown-menu context-menu"
                     :style="{ transform: 'translateY(' + offset + ')' }"
+                    v-if="portletContent && !!portletContent.description"
                 >
                     <div
                         class="portlet-content"
@@ -168,6 +170,7 @@ export default {
 .dropdown-menu.context-menu /deep/ {
     width: 100%;
     border: none;
+    border: var(--cm-menu-border, none);
     border-radius: 0;
     border-radius: var(--cm-menu-border-radius, 0);
 
@@ -181,22 +184,26 @@ export default {
             &.active,
             &:focus,
             &:hover {
-                background-color: #000;
+                background-color: black;
+                background-color: var(--cm-menu-item-active-bg-color, black);
                 color: white;
+                color: var(--cm-menu-item-active-fg-color, white);
                 outline: none;
             }
         }
         > .dropdown-menu {
-            background: #000;
+            background: black;
+            background: var(--cm-submenu-bg-color, black);
             margin: 0;
             &,
             & pre {
-                color: #fff;
+                color: var(--cm-submenu-fg-color, white);
             }
         }
 
         .portlet-content {
             padding: 16px;
+            padding: var(--cm-submenu-content-padding, 16px);
 
             img {
                 width: 100%;
