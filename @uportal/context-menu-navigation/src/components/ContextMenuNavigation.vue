@@ -165,12 +165,14 @@ export default {
     .nav.nav-pills {
         > .nav-item {
             max-width: 50%;
+
             > .nav-link {
                 text-align: left;
                 text-align: var(--cm-nav-item-text-align, left);
                 padding: 7px 21px;
                 padding: var(--cm-nav-item-padding, 7px 21px);
             }
+
             &.show > .nav-link,
             > .nav-link:focus {
                 background-color: $grey;
@@ -180,6 +182,7 @@ export default {
                 color: var(--cm-nav-item-active-fg-color, white);
             }
         }
+
         .dropdown-toggle::before,
         .dropdown-toggle::after {
             display: none !important;

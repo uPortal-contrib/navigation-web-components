@@ -197,19 +197,20 @@ export default {
             &.active,
             &:focus,
             &:hover {
-                background-color: black;
-                background-color: var(--cm-menu-item-active-bg-color, black);
-                color: white;
-                color: var(--cm-menu-item-active-fg-color, white);
+                background-color: $black;
+                background-color: var(--cm-menu-item-active-bg-color, $black);
+                color: $black;
+                color: var(--cm-menu-item-active-fg-color, $white);
                 outline: none;
             }
         }
+
         > .dropdown-menu {
             background: black;
-            background: var(--cm-submenu-bg-color, black);
+            background: var(--cm-submenu-bg-color, $black);
             margin: 0;
             min-height: 100%;
-            color: var(--cm-submenu-fg-color, white);
+            color: var(--cm-submenu-fg-color, $white);
         }
 
         .portlet-content {
@@ -220,9 +221,11 @@ export default {
                 width: 100%;
                 height: auto;
                 margin: 8px 0;
+
                 &:first-child {
                     margin-top: 0;
                 }
+
                 &:last-child {
                     margin-bottom: 0;
                 }
