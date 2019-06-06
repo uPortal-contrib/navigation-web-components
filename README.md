@@ -48,7 +48,7 @@ For example an `example-component` would be loaded by adding
 
 ## Components
 
--   [Flyout Navigation](@uportal/navigation-banner/README.md)
+-   [Context Menu Navigation](@uportal/context-menu-navigation/README.md)
 
 ## Contribute
 

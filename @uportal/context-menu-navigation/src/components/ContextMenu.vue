@@ -173,7 +173,6 @@ export default {
     border: var(--cm-menu-border, none);
     border-radius: 0;
     border-radius: var(--cm-menu-border-radius, 0);
-
     background: #bbb;
     background: var(--cm-menu-bg-color, #bbb);
     margin: 0;
@@ -191,10 +190,12 @@ export default {
                 outline: none;
             }
         }
+
         > .dropdown-menu {
             background: black;
             background: var(--cm-submenu-bg-color, black);
             margin: 0;
+
             &,
             & pre {
                 color: var(--cm-submenu-fg-color, white);
@@ -209,9 +210,11 @@ export default {
                 width: 100%;
                 height: auto;
                 margin: 8px 0;
+
                 &:first-child {
                     margin-top: 0;
                 }
+
                 &:last-child {
                     margin-bottom: 0;
                 }
