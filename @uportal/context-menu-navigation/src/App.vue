@@ -2,8 +2,6 @@
     <div class="container">
         <context-menu-navigation
             ignore="myHome"
-            layout-api-url="layout.json"
-            portlet-api-url="portletRegistry.json"
             class="context-menu-nav"
             debug
         ></context-menu-navigation>
@@ -25,8 +23,12 @@ export default {
 @import '../node_modules/bootstrap/scss/bootstrap';
 
 html {
-    font-size: 14px;
+    font-size: 10px;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: blue;
 }
 
 body {

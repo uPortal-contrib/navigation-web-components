@@ -9,6 +9,10 @@ module.exports = {
                 pathRewrite: {
                     '^/proxy': '/'
                 }
+            },
+            '/uPortal': {
+                target: 'http://localhost:8080',
+                changeOrigin: true
             }
         }
     }

@@ -29,19 +29,28 @@
                 <div
                     :class="{ show: selected === content.fname }"
                     class="dropdown-menu context-menu"
-                    :style="{ transform: 'translateY(' + offset + ')' }"
-                    v-if="portletContent && !!portletContent.description"
+                    :style="{ transform: 'translateY(' + offset + ')', minHeight: height }"
+                    v-if="portletContent"
                 >
-                    <div
+                    <WidgetRenderer
                         class="portlet-content"
-                        v-html="portletContent ? portletContent.description : null"
-                    ></div>
+                        :template="
+                            portletContent
+                                ? portletContent.widgetTemplate || portletContent.description
+                                : ''
+                        "
+                        :config="portletContent.widgetConfig"
+                        :url="portletContent.widgetUrl"
+                        :type="portletContent.widgetType"
+                    />
                 </div>
             </li>
         </template>
     </ul>
 </template>
 <script>
+import WidgetRenderer from '@uportal/content-renderer/src/components/WidgetRenderer';
+
 export const keyCodes = {
     13: 'enter',
     27: 'escape',
@@ -52,6 +61,9 @@ export const keyCodes = {
 
 export default {
     name: 'ContextMenu',
+    components: {
+        WidgetRenderer
+    },
     data() {
         return {
             selected: null
@@ -155,7 +167,7 @@ export default {
         portletContent() {
             return this.registry
                 ? this.registry.find(portlet => portlet.fname === this.selected)
-                : { description: 'Not Found' };
+                : {};
         },
         contentRegistry() {
             return this.tab.content
@@ -166,21 +178,33 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '../variables.scss';
+
 .navigation .dropdown-menu.context-menu /deep/,
 .dropdown-menu.context-menu /deep/ {
-    width: 100%;
+    min-width: 100%;
     border: none;
     border: var(--cm-menu-border, none);
     border-radius: 0;
     border-radius: var(--cm-menu-border-radius, 0);
-
     background: #bbb;
     background: var(--cm-menu-bg-color, #bbb);
     margin: 0;
     padding-top: 0;
+    box-sizing: border-box;
+
+    .dropdown-header > h6 {
+        color: darken($white, 20%);
+        font-size: 14px;
+        font-size: var(--cm-menu-font-size, 14px);
+    }
 
     > .dropdown-submenu {
         > .dropdown-item {
+            color: $white;
+            font-size: 14px;
+            font-size: var(--cm-menu-font-size, 14px);
+
             &.active,
             &:focus,
             &:hover {
@@ -204,6 +228,22 @@ export default {
         .portlet-content {
             padding: 16px;
             padding: var(--cm-submenu-content-padding, 16px);
+            font-size: 14px;
+            font-size: var(--cm-menu-font-size, 14px);
+            color: #f5f5f5;
+            color: var(--cm-menu-fg-color, #f5f5f5);
+
+            a {
+                color: #d8d8d8;
+                color: var(--cm-menu-link-fg-color, #d8d8d8);
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                    color: #e5e5e5;
+                    color: var(--cm-menu-link-fg-hover-color, #e5e5e5);
+                }
+            }
 
             img {
                 width: 100%;
