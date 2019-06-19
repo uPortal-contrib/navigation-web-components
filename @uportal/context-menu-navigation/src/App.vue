@@ -27,10 +27,6 @@ html {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-a {
-    color: blue;
-}
-
 body {
     color: white;
     font-size: 14px;

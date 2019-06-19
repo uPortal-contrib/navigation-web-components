@@ -1,5 +1,6 @@
 module.exports = {
     // options...
+    transpileDependencies: ['ky'],
     runtimeCompiler: true,
     devServer: {
         proxy: {

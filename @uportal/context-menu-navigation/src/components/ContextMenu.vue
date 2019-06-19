@@ -178,8 +178,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../variables.scss';
-
 .navigation .dropdown-menu.context-menu /deep/,
 .dropdown-menu.context-menu /deep/ {
     min-width: 100%;
@@ -194,14 +192,14 @@ export default {
     box-sizing: border-box;
 
     .dropdown-header > h6 {
-        color: darken($white, 20%);
+        color: darken(white, 20%);
         font-size: 14px;
         font-size: var(--cm-menu-font-size, 14px);
     }
 
     > .dropdown-submenu {
         > .dropdown-item {
-            color: $white;
+            color: white;
             font-size: 14px;
             font-size: var(--cm-menu-font-size, 14px);
 

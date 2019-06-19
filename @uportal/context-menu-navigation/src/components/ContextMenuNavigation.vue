@@ -157,8 +157,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../variables.scss';
-
 .navigation /deep/ {
     @import '../../node_modules/bootstrap/scss/bootstrap';
 
@@ -172,8 +170,8 @@ export default {
                 padding: var(--cm-nav-item-padding, 7px 21px);
                 font-size: 14px;
                 font-size: var(--cm-menu-font-size, 14px);
-                color: $grey;
-                color: var(--cm-nav-item-link-color, $grey);
+                color: #666;
+                color: var(--cm-nav-item-link-color, #666);
                 width: 100%;
             }
             &.show > .nav-link,
