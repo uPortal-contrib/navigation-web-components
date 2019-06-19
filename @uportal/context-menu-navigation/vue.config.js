@@ -1,6 +1,6 @@
 module.exports = {
     // options...
-    transpileDependencies: ['ky'],
+    transpileDependencies: ['handlebars', 'ky'],
     runtimeCompiler: true,
     devServer: {
         proxy: {
