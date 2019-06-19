@@ -170,7 +170,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../variables.scss';
 .navigation .dropdown-menu.context-menu /deep/,
 .dropdown-menu.context-menu /deep/ {
     width: 100%;
@@ -178,14 +177,14 @@ export default {
     border: var(--cm-menu-border, none);
     border-radius: 0;
     border-radius: var(--cm-menu-border-radius, 0);
-    background: $grey;
-    background: var(--cm-menu-bg-color, $grey);
+    background: #666;
+    background: var(--cm-menu-bg-color, #666);
     margin: 0;
     padding-top: 0;
     box-sizing: border-box;
 
     .dropdown-header > h6 {
-        color: darken($white, 20%);
+        color: darken(white, 20%);
     }
 
     > .dropdown-submenu {
@@ -197,20 +196,20 @@ export default {
             &.active,
             &:focus,
             &:hover {
-                background-color: $black;
-                background-color: var(--cm-menu-item-active-bg-color, $black);
-                color: $black;
-                color: var(--cm-menu-item-active-fg-color, $white);
+                background-color: black;
+                background-color: var(--cm-menu-item-active-bg-color, black);
+                color: black;
+                color: var(--cm-menu-item-active-fg-color, white);
                 outline: none;
             }
         }
 
         > .dropdown-menu {
             background: black;
-            background: var(--cm-submenu-bg-color, $black);
+            background: var(--cm-submenu-bg-color, black);
             margin: 0;
             min-height: 100%;
-            color: var(--cm-submenu-fg-color, $white);
+            color: var(--cm-submenu-fg-color, white);
         }
 
         .portlet-content {

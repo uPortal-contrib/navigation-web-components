@@ -158,7 +158,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../variables.scss';
 .navigation /deep/ {
     @import '../../node_modules/bootstrap/scss/bootstrap';
 
@@ -175,8 +174,8 @@ export default {
 
             &.show > .nav-link,
             > .nav-link:focus {
-                background-color: $grey;
-                background-color: var(--cm-nav-item-active-bg-color, $grey);
+                background-color: #666;
+                background-color: var(--cm-nav-item-active-bg-color, #666);
                 border-radius: 0;
                 color: white;
                 color: var(--cm-nav-item-active-fg-color, white);
