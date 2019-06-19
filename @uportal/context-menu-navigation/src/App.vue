@@ -33,8 +33,4 @@ body {
     padding: 0;
     margin: 0;
 }
-
-.context-menu-nav {
-    --cm-menu-bg-color: #bbb;
-}
 </style>

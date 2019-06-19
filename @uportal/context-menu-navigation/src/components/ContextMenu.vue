@@ -3,11 +3,12 @@
         :class="{ show: isOpen }"
         class="dropdown-menu context-menu"
         role="navigation"
+        ref="context-menu"
         @keydown="handleKeyDown"
     >
         <template v-for="(column, columnIndex) in tab.content">
-            <li class="dropdown-header" :key="columnIndex">
-                <h6>{{ column.name }}</h6>
+            <li class="dropdown-header mt-4" :key="columnIndex">
+                <h6 class="mb-0">{{ column.name }}</h6>
             </li>
             <li
                 v-for="(content, contentIndex) in column.content"
@@ -156,6 +157,9 @@ export default {
         offset() {
             return this.selected ? -this.$refs['content-' + this.selected][0].offsetTop + 'px' : 0;
         },
+        height() {
+            return this.$refs['context-menu'].clientHeight + 'px';
+        },
         ignoreFolders() {
             return this.ignore.split(',');
         },
@@ -198,6 +202,8 @@ export default {
     }
 
     > .dropdown-submenu {
+        color: $white;
+
         > .dropdown-item {
             color: white;
             font-size: 14px;
@@ -208,19 +214,18 @@ export default {
             &:hover {
                 background-color: black;
                 background-color: var(--cm-menu-item-active-bg-color, black);
-                color: white;
+                color: black;
                 color: var(--cm-menu-item-active-fg-color, white);
                 outline: none;
             }
         }
+
         > .dropdown-menu {
             background: black;
             background: var(--cm-submenu-bg-color, black);
             margin: 0;
-            &,
-            & pre {
-                color: var(--cm-submenu-fg-color, white);
-            }
+            min-height: 100%;
+            color: var(--cm-submenu-fg-color, white);
         }
 
         .portlet-content {
@@ -247,9 +252,11 @@ export default {
                 width: 100%;
                 height: auto;
                 margin: 8px 0;
+
                 &:first-child {
                     margin-top: 0;
                 }
+
                 &:last-child {
                     margin-bottom: 0;
                 }

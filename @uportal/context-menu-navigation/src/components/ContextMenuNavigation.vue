@@ -163,6 +163,7 @@ export default {
     .nav.nav-pills {
         > .nav-item {
             max-width: 50%;
+
             > .nav-link {
                 text-align: center;
                 text-align: var(--cm-nav-item-text-align, center);
@@ -174,11 +175,12 @@ export default {
                 color: var(--cm-nav-item-link-color, #666);
                 width: 100%;
             }
+
             &.show > .nav-link,
             &.show > .nav-link:hover,
             > .nav-link:focus {
-                background-color: #bbb;
-                background-color: var(--cm-nav-item-active-bg-color, #bbb);
+                background-color: #666;
+                background-color: var(--cm-nav-item-active-bg-color, #666);
                 border-radius: 0;
                 color: white;
                 color: var(--cm-nav-item-active-fg-color, white);
@@ -186,6 +188,7 @@ export default {
                 text-align: var(--cm-nav-item-active-text-align, left);
             }
         }
+
         .dropdown-toggle::before,
         .dropdown-toggle::after {
             display: none !important;
