@@ -202,7 +202,7 @@ export default {
     }
 
     > .dropdown-submenu {
-        color: $white;
+        color: white;
 
         > .dropdown-item {
             color: white;
