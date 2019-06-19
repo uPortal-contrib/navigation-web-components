@@ -1,5 +1,6 @@
 module.exports = {
     // options...
+    transpileDependencies: ['ky'],
     runtimeCompiler: true,
     devServer: {
         proxy: {
@@ -9,6 +10,10 @@ module.exports = {
                 pathRewrite: {
                     '^/proxy': '/'
                 }
+            },
+            '/uPortal': {
+                target: 'http://localhost:8080',
+                changeOrigin: true
             }
         }
     }

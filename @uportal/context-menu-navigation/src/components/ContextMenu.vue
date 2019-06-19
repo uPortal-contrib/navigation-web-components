@@ -3,11 +3,12 @@
         :class="{ show: isOpen }"
         class="dropdown-menu context-menu"
         role="navigation"
+        ref="context-menu"
         @keydown="handleKeyDown"
     >
         <template v-for="(column, columnIndex) in tab.content">
-            <li class="dropdown-header" :key="columnIndex">
-                <h6>{{ column.name }}</h6>
+            <li class="dropdown-header mt-4" :key="columnIndex">
+                <h6 class="mb-0">{{ column.name }}</h6>
             </li>
             <li
                 v-for="(content, contentIndex) in column.content"
@@ -29,19 +30,28 @@
                 <div
                     :class="{ show: selected === content.fname }"
                     class="dropdown-menu context-menu"
-                    :style="{ transform: 'translateY(' + offset + ')' }"
-                    v-if="portletContent && !!portletContent.description"
+                    :style="{ transform: 'translateY(' + offset + ')', minHeight: height }"
+                    v-if="portletContent"
                 >
-                    <div
+                    <WidgetRenderer
                         class="portlet-content"
-                        v-html="portletContent ? portletContent.description : null"
-                    ></div>
+                        :template="
+                            portletContent
+                                ? portletContent.widgetTemplate || portletContent.description
+                                : ''
+                        "
+                        :config="portletContent.widgetConfig"
+                        :url="portletContent.widgetUrl"
+                        :type="portletContent.widgetType"
+                    />
                 </div>
             </li>
         </template>
     </ul>
 </template>
 <script>
+import WidgetRenderer from '@uportal/content-renderer/src/components/WidgetRenderer';
+
 export const keyCodes = {
     13: 'enter',
     27: 'escape',
@@ -52,6 +62,9 @@ export const keyCodes = {
 
 export default {
     name: 'ContextMenu',
+    components: {
+        WidgetRenderer
+    },
     data() {
         return {
             selected: null
@@ -144,6 +157,9 @@ export default {
         offset() {
             return this.selected ? -this.$refs['content-' + this.selected][0].offsetTop + 'px' : 0;
         },
+        height() {
+            return this.$refs['context-menu'].clientHeight + 'px';
+        },
         ignoreFolders() {
             return this.ignore.split(',');
         },
@@ -155,7 +171,7 @@ export default {
         portletContent() {
             return this.registry
                 ? this.registry.find(portlet => portlet.fname === this.selected)
-                : { description: 'Not Found' };
+                : {};
         },
         contentRegistry() {
             return this.tab.content
@@ -168,50 +184,79 @@ export default {
 <style lang="scss" scoped>
 .navigation .dropdown-menu.context-menu /deep/,
 .dropdown-menu.context-menu /deep/ {
-    width: 100%;
+    min-width: 100%;
     border: none;
     border: var(--cm-menu-border, none);
     border-radius: 0;
     border-radius: var(--cm-menu-border-radius, 0);
-
     background: #bbb;
     background: var(--cm-menu-bg-color, #bbb);
     margin: 0;
     padding-top: 0;
+    box-sizing: border-box;
+
+    .dropdown-header > h6 {
+        color: darken(white, 20%);
+        font-size: 14px;
+        font-size: var(--cm-menu-font-size, 14px);
+    }
 
     > .dropdown-submenu {
+        color: white;
+
         > .dropdown-item {
+            color: white;
+            font-size: 14px;
+            font-size: var(--cm-menu-font-size, 14px);
+
             &.active,
             &:focus,
             &:hover {
                 background-color: black;
                 background-color: var(--cm-menu-item-active-bg-color, black);
-                color: white;
+                color: black;
                 color: var(--cm-menu-item-active-fg-color, white);
                 outline: none;
             }
         }
+
         > .dropdown-menu {
             background: black;
             background: var(--cm-submenu-bg-color, black);
             margin: 0;
-            &,
-            & pre {
-                color: var(--cm-submenu-fg-color, white);
-            }
+            min-height: 100%;
+            color: var(--cm-submenu-fg-color, white);
         }
 
         .portlet-content {
             padding: 16px;
             padding: var(--cm-submenu-content-padding, 16px);
+            font-size: 14px;
+            font-size: var(--cm-menu-font-size, 14px);
+            color: #f5f5f5;
+            color: var(--cm-menu-fg-color, #f5f5f5);
+
+            a {
+                color: #d8d8d8;
+                color: var(--cm-menu-link-fg-color, #d8d8d8);
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                    color: #e5e5e5;
+                    color: var(--cm-menu-link-fg-hover-color, #e5e5e5);
+                }
+            }
 
             img {
                 width: 100%;
                 height: auto;
                 margin: 8px 0;
+
                 &:first-child {
                     margin-top: 0;
                 }
+
                 &:last-child {
                     margin-bottom: 0;
                 }

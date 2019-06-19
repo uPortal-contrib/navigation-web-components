@@ -44,7 +44,6 @@ import oidc from '@uportal/open-id-connect';
 import Vue from 'vue';
 import AsyncComputed from 'vue-async-computed';
 import ky from 'ky';
-import { portletRegistryToArray } from '@uportal/portlet-registry-to-array';
 
 import ContextMenu from './ContextMenu';
 
@@ -73,9 +72,9 @@ export default {
             type: String,
             default: '/uPortal/api/v4-3/dlm/layout.json'
         },
-        portletApiUrl: {
+        layoutDocUrl: {
             type: String,
-            default: '/uPortal/api/v4-3/dlm/portletRegistry.json'
+            default: '/uPortal/api/layoutDoc'
         }
     },
     methods: {
@@ -136,7 +135,7 @@ export default {
         },
         registry: {
             async get() {
-                const { portletApiUrl, debug } = this;
+                const { layoutDocUrl, debug } = this;
                 try {
                     const headers = debug
                         ? {}
@@ -145,7 +144,7 @@ export default {
                               'content-type': 'application/jwt'
                           };
 
-                    return portletRegistryToArray(await ky.get(portletApiUrl, { headers }).json());
+                    return (await ky.get(layoutDocUrl, { headers }).json()).layout;
                 } catch (err) {
                     // eslint-disable-next-line no-console
                     console.error(err);
@@ -164,21 +163,32 @@ export default {
     .nav.nav-pills {
         > .nav-item {
             max-width: 50%;
+
             > .nav-link {
-                text-align: left;
-                text-align: var(--cm-nav-item-text-align, left);
+                text-align: center;
+                text-align: var(--cm-nav-item-text-align, center);
                 padding: 7px 21px;
                 padding: var(--cm-nav-item-padding, 7px 21px);
+                font-size: 14px;
+                font-size: var(--cm-menu-font-size, 14px);
+                color: #666;
+                color: var(--cm-nav-item-link-color, #666);
+                width: 100%;
             }
+
             &.show > .nav-link,
+            &.show > .nav-link:hover,
             > .nav-link:focus {
-                background-color: #bbb;
-                background-color: var(--cm-nav-item-active-bg-color, #bbb);
+                background-color: #666;
+                background-color: var(--cm-nav-item-active-bg-color, #666);
                 border-radius: 0;
                 color: white;
                 color: var(--cm-nav-item-active-fg-color, white);
+                text-align: left;
+                text-align: var(--cm-nav-item-active-text-align, left);
             }
         }
+
         .dropdown-toggle::before,
         .dropdown-toggle::after {
             display: none !important;
