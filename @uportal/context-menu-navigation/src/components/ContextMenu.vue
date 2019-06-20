@@ -185,12 +185,14 @@ export default {
 .navigation .dropdown-menu.context-menu /deep/,
 .dropdown-menu.context-menu /deep/ {
     min-width: 100%;
+    max-width: 100%;
+    width: 100%;
     border: none;
     border: var(--cm-menu-border, none);
     border-radius: 0;
     border-radius: var(--cm-menu-border-radius, 0);
-    background: #bbb;
-    background: var(--cm-menu-bg-color, #bbb);
+    background: #666;
+    background: var(--cm-menu-bg-color, #666);
     margin: 0;
     padding-top: 0;
     box-sizing: border-box;
