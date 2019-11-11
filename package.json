@@ -11,7 +11,7 @@
         "eslint-config-google": "^0.13.0",
         "eslint-plugin-flowtype": "^3.0.0",
         "eslint-plugin-import": "^2.14.0",
-        "eslint-plugin-vue": "^5.0.0-beta.3",
+        "eslint-plugin-vue": "^6.0.0",
         "lerna": "^3.4.0",
         "lerna-webjar": "^1.1.1",
         "lint-staged": "^8.0.0",
