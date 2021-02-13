@@ -35,14 +35,9 @@
                 >
                     <WidgetRenderer
                         class="portlet-content"
-                        :template="
-                            portletContent
-                                ? portletContent.widgetTemplate || portletContent.description
-                                : ''
-                        "
-                        :config="portletContent.widgetConfig"
-                        :url="portletContent.widgetUrl"
-                        :type="portletContent.widgetType"
+                        :template="cleanWidgetTemplate"
+                        :url="portletContent.parameters.widgetUrl"
+                        :type="portletContent.parameters.widgetType"
                     />
                 </div>
             </li>
@@ -82,10 +77,6 @@ export default {
                 };
             }
         },
-        registry: {
-            type: Array,
-            default: () => []
-        },
         isOpen: {
             type: Boolean,
             default: false
@@ -93,6 +84,10 @@ export default {
         dropDirection: {
             type: String,
             default: 'dropright'
+        },
+        debug: {
+            type: Boolean,
+            default: false
         }
     },
     updated() {
@@ -147,6 +142,11 @@ export default {
         },
         getIndex(fname) {
             return this.contentRegistry.indexOf(fname);
+        },
+        logDebug(msg) {
+            if (this.debug) {
+                console.log(msg);
+            }
         }
     },
     computed: {
@@ -169,14 +169,59 @@ export default {
             );
         },
         portletContent() {
-            return this.registry
-                ? this.registry.find(portlet => portlet.fname === this.selected)
-                : {};
+            const selDetails = this.contentItemDetails;
+            if (selDetails) {
+                const retVal =
+                    selDetails.parameters && selDetails.parameters.widgetType ? selDetails : false;
+                this.logDebug(
+                    'portletContent: [' +
+                        this.selected +
+                        '].  retVal=[' +
+                        retVal +
+                        '].  Selected details:'
+                );
+                this.logDebug(selDetails);
+                return retVal;
+            } else {
+                if (this.debug)
+                    console.log(
+                        'portletContent: [' + this.selected + '].  No selected details found.'
+                    );
+                return false;
+            }
         },
         contentRegistry() {
             return this.tab.content
                 .reduce((collection, group) => [...collection, ...group.content], [])
                 .map(c => c.fname);
+        },
+        contentItemDetails() {
+            if (this.selected) {
+                return this.tab.content
+                    .reduce((collection, group) => [...collection, ...group.content], [])
+                    .find(c => c.fname == this.selected);
+            } else {
+                return this.selected;
+            }
+        },
+        cleanWidgetTemplate() {
+            const escapedXmlMapping = {
+                '&lt;': '<',
+                '&gt;': '>',
+                '&quot;': '"',
+                '&amp;': '&'
+            };
+            // Assumes portletContent is truthy, thus cid will be defined
+            const cid = this.contentItemDetails;
+            if (cid && cid.parameters && cid.parameters.widgetTemplate) {
+                return this.contentItemDetails.parameters.widgetTemplate.replace(
+                    /(&quot;|&lt;|&gt;|&amp;)/g,
+                    function(str, marker) {
+                        return escapedXmlMapping[marker];
+                    }
+                );
+            }
+            return this.contentItemDetails.description;
         }
     }
 };

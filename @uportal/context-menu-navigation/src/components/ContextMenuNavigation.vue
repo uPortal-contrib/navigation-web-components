@@ -33,7 +33,7 @@
                             ? 'dropleft'
                             : 'dropright'
                     "
-                    :registry="registry"
+                    :debug="debug"
                 ></context-menu>
             </li>
         </ul>
@@ -71,10 +71,6 @@ export default {
         layoutApiUrl: {
             type: String,
             default: '/uPortal/api/v4-3/dlm/layout.json'
-        },
-        layoutDocUrl: {
-            type: String,
-            default: '/uPortal/api/layoutDoc'
         }
     },
     methods: {
@@ -132,26 +128,6 @@ export default {
                     tabs: []
                 }
             }
-        },
-        registry: {
-            async get() {
-                const { layoutDocUrl, debug } = this;
-                try {
-                    const headers = debug
-                        ? {}
-                        : {
-                              Authorization: 'Bearer ' + (await oidc()).encoded,
-                              'content-type': 'application/jwt'
-                          };
-
-                    return (await ky.get(layoutDocUrl, { headers }).json()).layout;
-                } catch (err) {
-                    // eslint-disable-next-line no-console
-                    console.error(err);
-                    return {};
-                }
-            },
-            default: []
         }
     }
 };
