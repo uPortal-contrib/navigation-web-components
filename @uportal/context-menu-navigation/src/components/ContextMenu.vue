@@ -213,8 +213,7 @@ export default {
                 '&amp;': '&'
             };
             // Assumes portletContent is truthy, thus cid will be defined
-            const cid = this.contentItemDetails;
-            if (cid && cid.parameters && cid.parameters.widgetTemplate) {
+            if (this.contentItemDetails?.parameters?.widgetTemplate) {
                 return this.contentItemDetails.parameters.widgetTemplate.replace(
                     /(&quot;|&lt;|&gt;|&amp;)/g,
                     function(str, marker) {
