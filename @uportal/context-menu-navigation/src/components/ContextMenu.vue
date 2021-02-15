@@ -209,6 +209,7 @@ export default {
                 '&lt;': '<',
                 '&gt;': '>',
                 '&quot;': '"',
+                '&apos; "'",
                 '&amp;': '&'
             };
             // Assumes portletContent is truthy, thus cid will be defined
