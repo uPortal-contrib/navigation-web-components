@@ -41,6 +41,32 @@ Here's the guts of that html file:
 
 -   Note: The component includes bootstrap, so that you can use bootstrap's styles in your content slots. However, font-awesome has issues crossing the shadow-dom boundry, so that if you include an icon in the content slot, you also need to include a `<link>` to the font-awesome stylesheet from uPortal (or elsewhere if you wish).
 
+### Portlet Definitions
+
+While the portlet layout in the menu will be determined by `layout.json`, only portlets that have a portlet parameter of `widgetType` will have a context or flyout area rendered. The `widgetType` is checked when building the menu, but in essence is passed through to the `Widget Renderer`.
+
+To customize the context / flyout area for a portlet in the `context-menu`, add a `widgetTemplate` portlet parameter. The field can be HTML.
+
+Note: The HTML is directly rendered onto the screen without sanitization. For this reason, use care when customizing the `widgetTemplate`s.
+
+Example portlet parameters to render a context / flyout area in the `context-menu`:
+
+```html
+<parameter>
+    <name>widgetTemplate</name>
+    <value
+        ><![CDATA[ <div> <span>Check out the latest business cartoon. Click on the link below! <a
+        href="/uPortal/p/daily-business-cartoon-4"><img
+        src="https://raw.githubusercontent.com/Jasig/uPortal/master/docs/images/uPortal-logo.jpg"
+        alt="uP"/></a> </span> </div>]]>
+    </value>
+</parameter>
+<parameter>
+    <name>widgetType</name>
+    <value>generic</value>
+</parameter>
+```
+
 ##### Notice
 
 We have a `/proxy/` leading the `oidc-url` attribute. This is a developer convenience to be able to query against your local running instance of uPortal. The proxy is configured in `package.json`:
