@@ -46,6 +46,8 @@
 </template>
 <script>
 import WidgetRenderer from '@uportal/content-renderer/src/components/WidgetRenderer';
+import debugFactory from 'debug';
+const debugLogger = debugFactory('up:context-nav-menu');
 
 export const keyCodes = {
     13: 'enter',
@@ -84,10 +86,6 @@ export default {
         dropDirection: {
             type: String,
             default: 'dropright'
-        },
-        debug: {
-            type: Boolean,
-            default: false
         }
     },
     updated() {
@@ -142,11 +140,6 @@ export default {
         },
         getIndex(fname) {
             return this.contentRegistry.indexOf(fname);
-        },
-        logDebug(msg) {
-            if (this.debug) {
-                console.log(msg);
-            }
         }
     },
     computed: {
@@ -173,20 +166,17 @@ export default {
             if (selDetails) {
                 const retVal =
                     selDetails.parameters && selDetails.parameters.widgetType ? selDetails : false;
-                this.logDebug(
-                    'portletContent: [' +
-                        this.selected +
-                        '].  retVal=[' +
-                        retVal +
-                        '].  Selected details:'
+                debugLogger(
+                    'portletContent: [',
+                    this.selected,
+                    '].  retVal=[',
+                    retVal,
+                    '].  Selected details:'
                 );
-                this.logDebug(selDetails);
+                debugLogger(selDetails);
                 return retVal;
             } else {
-                if (this.debug)
-                    console.log(
-                        'portletContent: [' + this.selected + '].  No selected details found.'
-                    );
+                debugLogger('portletContent: [', this.selected, '].  No selected details found.');
                 return false;
             }
         },
@@ -209,19 +199,16 @@ export default {
                 '&lt;': '<',
                 '&gt;': '>',
                 '&quot;': '"',
-                '&apos; "'",
+                '&apos;': "'",
                 '&amp;': '&'
             };
-            // Assumes portletContent is truthy, thus cid will be defined
-            if (this.contentItemDetails?.parameters?.widgetTemplate) {
-                return this.contentItemDetails.parameters.widgetTemplate.replace(
-                    /(&quot;|&lt;|&gt;|&amp;)/g,
-                    function(str, marker) {
-                        return escapedXmlMapping[marker];
-                    }
-                );
+            const wTemplate = this.contentItemDetails?.parameters?.widgetTemplate;
+            if (wTemplate) {
+                return wTemplate.replace(/(&quot;|&lt;|&gt;|&apos;|&amp;)/g, function(str, marker) {
+                    return escapedXmlMapping[marker];
+                });
             }
-            return this.contentItemDetails.description;
+            return this.contentItemDetails?.description;
         }
     }
 };

@@ -41,6 +41,14 @@ Here's the guts of that html file:
 
 -   Note: The component includes bootstrap, so that you can use bootstrap's styles in your content slots. However, font-awesome has issues crossing the shadow-dom boundry, so that if you include an icon in the content slot, you also need to include a `<link>` to the font-awesome stylesheet from uPortal (or elsewhere if you wish).
 
+### Logging
+
+Makes use of the `debug` [utility](https://www.npmjs.com/package/debug#browser-support). The handle is `up:context-nav-menu`.
+
+To enable, navigate to your console and type `localStorage.debug="up:context-nav-menu"`. Note, you can enable multiple `debug` loggers with wild cards and a CSV, such as `localStorage.debug="up:*,sockjs-client:websocket"`.
+
+To disable, use: `localStorage.debug=""`.
+
 ### Portlet Definitions
 
 While the portlet layout in the menu will be determined by `layout.json`, only portlets that have a portlet parameter of `widgetType` will have a context or flyout area rendered. The `widgetType` is checked when building the menu, but in essence is passed through to the `Widget Renderer`.

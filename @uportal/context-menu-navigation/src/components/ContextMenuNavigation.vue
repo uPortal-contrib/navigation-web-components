@@ -33,7 +33,6 @@
                             ? 'dropleft'
                             : 'dropright'
                     "
-                    :debug="debug"
                 ></context-menu>
             </li>
         </ul>
@@ -44,6 +43,8 @@ import oidc from '@uportal/open-id-connect';
 import Vue from 'vue';
 import AsyncComputed from 'vue-async-computed';
 import ky from 'ky';
+import debugFactory from 'debug';
+const debugLogger = debugFactory('up:context-nav-menu');
 
 import ContextMenu from './ContextMenu';
 
@@ -94,6 +95,8 @@ export default {
     },
     mounted() {
         document.addEventListener('click', this.handleOutsideClick, false);
+
+        debugLogger('Mounted Context-Nav-Menu');
     },
     computed: {
         ignoreFolders() {
