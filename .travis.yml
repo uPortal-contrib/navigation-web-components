@@ -16,8 +16,8 @@ install:
 script:
   - npm run lint
   - npm test
-  - npm run ci:commitlint
   - npx lerna run build
+  - npm run ci:commitlint # sometimes, it's OK for the commits to not be formatted correctly.  Make sure everything else runs
 cache:
   directories:
     - ~/.npm

@@ -35,14 +35,9 @@
                 >
                     <WidgetRenderer
                         class="portlet-content"
-                        :template="
-                            portletContent
-                                ? portletContent.widgetTemplate || portletContent.description
-                                : ''
-                        "
-                        :config="portletContent.widgetConfig"
-                        :url="portletContent.widgetUrl"
-                        :type="portletContent.widgetType"
+                        :template="cleanWidgetTemplate"
+                        :url="portletContent.parameters.widgetUrl"
+                        :type="portletContent.parameters.widgetType"
                     />
                 </div>
             </li>
@@ -51,6 +46,8 @@
 </template>
 <script>
 import WidgetRenderer from '@uportal/content-renderer/src/components/WidgetRenderer';
+import debugFactory from 'debug';
+const debugLogger = debugFactory('up:context-nav-menu');
 
 export const keyCodes = {
     13: 'enter',
@@ -81,10 +78,6 @@ export default {
                     content: []
                 };
             }
-        },
-        registry: {
-            type: Array,
-            default: () => []
         },
         isOpen: {
             type: Boolean,
@@ -169,14 +162,53 @@ export default {
             );
         },
         portletContent() {
-            return this.registry
-                ? this.registry.find(portlet => portlet.fname === this.selected)
-                : {};
+            const selDetails = this.contentItemDetails;
+            if (selDetails) {
+                const retVal =
+                    selDetails.parameters && selDetails.parameters.widgetType ? selDetails : false;
+                debugLogger(
+                    'portletContent: [',
+                    this.selected,
+                    '].  retVal=[',
+                    retVal,
+                    '].  Selected details:'
+                );
+                debugLogger(selDetails);
+                return retVal;
+            } else {
+                debugLogger('portletContent: [', this.selected, '].  No selected details found.');
+                return false;
+            }
         },
         contentRegistry() {
             return this.tab.content
                 .reduce((collection, group) => [...collection, ...group.content], [])
                 .map(c => c.fname);
+        },
+        contentItemDetails() {
+            if (this.selected) {
+                return this.tab.content
+                    .reduce((collection, group) => [...collection, ...group.content], [])
+                    .find(c => c.fname == this.selected);
+            } else {
+                return this.selected;
+            }
+        },
+        cleanWidgetTemplate() {
+            const escapedXmlMapping = {
+                '&lt;': '<',
+                '&gt;': '>',
+                '&quot;': '"',
+                '&apos;': "'",
+                '&amp;': '&'
+            };
+            const wTemplate = this.contentItemDetails?.parameters?.widgetTemplate;
+            if (wTemplate) {
+                return wTemplate.replace(/(&quot;|&lt;|&gt;|&apos;|&amp;)/g, function(str, marker) {
+                    return escapedXmlMapping[marker];
+                });
+            }
+            return this.contentItemDetails?.description;
         }
     }
 };

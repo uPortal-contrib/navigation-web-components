@@ -33,7 +33,6 @@
                             ? 'dropleft'
                             : 'dropright'
                     "
-                    :registry="registry"
                 ></context-menu>
             </li>
         </ul>
@@ -44,6 +43,8 @@ import oidc from '@uportal/open-id-connect';
 import Vue from 'vue';
 import AsyncComputed from 'vue-async-computed';
 import ky from 'ky';
+import debugFactory from 'debug';
+const debugLogger = debugFactory('up:context-nav-menu');
 
 import ContextMenu from './ContextMenu';
 
@@ -71,10 +72,6 @@ export default {
         layoutApiUrl: {
             type: String,
             default: '/uPortal/api/v4-3/dlm/layout.json'
-        },
-        layoutDocUrl: {
-            type: String,
-            default: '/uPortal/api/layoutDoc'
         }
     },
     methods: {
@@ -98,6 +95,8 @@ export default {
     },
     mounted() {
         document.addEventListener('click', this.handleOutsideClick, false);
+
+        debugLogger('Mounted Context-Nav-Menu');
     },
     computed: {
         ignoreFolders() {
@@ -132,26 +131,6 @@ export default {
                     tabs: []
                 }
             }
-        },
-        registry: {
-            async get() {
-                const { layoutDocUrl, debug } = this;
-                try {
-                    const headers = debug
-                        ? {}
-                        : {
-                              Authorization: 'Bearer ' + (await oidc()).encoded,
-                              'content-type': 'application/jwt'
-                          };
-
-                    return (await ky.get(layoutDocUrl, { headers }).json()).layout;
-                } catch (err) {
-                    // eslint-disable-next-line no-console
-                    console.error(err);
-                    return {};
-                }
-            },
-            default: []
         }
     }
 };
