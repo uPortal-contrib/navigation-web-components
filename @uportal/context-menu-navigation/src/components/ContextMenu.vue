@@ -14,12 +14,20 @@
                 v-for="(content, contentIndex) in column.content"
                 :key="`${columnIndex}-${contentIndex}`"
                 class="dropdown-submenu"
-                :class="[dropDirection, { show: selected === content.fname }]"
+                :class="[dropDirection, { show: selected === content.fname, maintenance: content.lifecycleState === 'MAINTENANCE' }]"
                 :ref="'content-' + content.fname"
             >
-                <a
+                <span
+                    v-if="content.lifecycleState === 'MAINTENANCE'"
                     class="dropdown-item dropdown-toggle"
-                    :href="content.parameters.alternativeMaximizedLink"
+                    @mouseover="toggleContent(content)"
+                    @focus="toggleContent(content)"
+                    >{{ content.name }}</span
+                >
+                <a
+                    v-else
+                    class="dropdown-item dropdown-toggle"
+                    :href="content.alternativeMaximizedLink"
                     :target="content.parameters.target"
                     :ref="content.fname"
                     @mouseover="toggleContent(content)"
@@ -27,13 +35,28 @@
                     :class="{ active: content.fname === selected }"
                     >{{ content.name }}</a
                 >
+                
                 <div
                     :class="{ show: selected === content.fname }"
                     class="dropdown-menu context-menu"
                     :style="{ transform: 'translateY(' + offset + ')', minHeight: height }"
                     v-if="portletContent"
                 >
+                    <div class="portlet-content" v-if="content.lifecycleState === 'MAINTENANCE'"
+                        :title="content.parameters.customMaintenanceMessage"
+                        :style="{minHeight: height}">
+                        <div class="content-title mb-2">{{ content.name }}</div>
+                        <h2 class="text-warning h1 mb-0"
+                            :style="{display: 'flex', alignItems: 'center'}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16" class="bi bi-exclamation-circle">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"></path>
+                            </svg>
+                            &nbsp; Out of Service
+                        </h2>
+                    </div>
                     <WidgetRenderer
+                        v-else
                         class="portlet-content"
                         :template="cleanWidgetTemplate"
                         :url="portletContent.parameters.widgetUrl"
@@ -237,6 +260,12 @@ export default {
 
     > .dropdown-submenu {
         color: white;
+
+        &.maintenance {
+            .dropdown-item, .content-title {
+                text-decoration: line-through;
+            }
+        }
 
         > .dropdown-item {
             color: white;
