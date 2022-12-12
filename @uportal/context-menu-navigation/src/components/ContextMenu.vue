@@ -27,7 +27,7 @@
                 <a
                     v-else
                     class="dropdown-item dropdown-toggle"
-                    :href="content.alternativeMaximizedLink"
+                    :href="content.parameters.alternativeMaximizedLink"
                     :target="content.parameters.target"
                     :ref="content.fname"
                     @mouseover="toggleContent(content)"
