@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
-- feat: support maintenance mode in layout.json
-- feat: added sample maintenance mode layout.json (uportal-maint-test-layout.json)
+## [1.3.0][] - 2022-12-13
+
+-   feat: support maintenance mode in layout.json
+-   feat: added sample maintenance mode layout.json (uportal-maint-test-layout.json)
 
 ## [1.1.0][] - 2022-01-14
 
@@ -42,6 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -   chore: fixed lint issues, updated README
 
-[unreleased]: https://github.com/uPortal-contrib/navigation-web-components/compare/v1.1.0...HEAD
+[unreleased]: https://github.com/uPortal-contrib/navigation-web-components/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/uPortal-contrib/navigation-web-components/compare/v1.3.0...v1.3.1
 [1.1.0]: https://github.com/uPortal-contrib/navigation-web-components/compare/v1.0.0...v1.1.1
 [1.0.0]: https://github.com/uPortal-contrib/navigation-web-components/compare/8e68938ac614423ace91d01e6402e2daa6071100...v1.0.0
