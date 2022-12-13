@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+- feat: support maintenance mode in layout.json
+- feat: added sample maintenance mode layout.json (uportal-maint-test-layout.json)
+
 ## [1.1.0][] - 2022-01-14
 
 ### Features
