@@ -173,19 +173,20 @@ export default {
             }
         },
         handleOptionFocus(index) {
-            const fname = this.contentRegistry[index];
-            this.selected = fname;
-            this.$nextTick(() => this.$refs[fname][0].focus());
+            this.selected = this.contentRegistry[index];
         },
         handleComponentBlur() {
             this.$emit('component-blur');
         },
         toggleContent(content) {
-            this.handleOptionFocus(this.getIndex(content.fname));
+            this.handleOptionFocus(this.getIndex(content?.fname));
         },
         getIndex(fname) {
             return this.contentRegistry.indexOf(fname);
         }
+    },
+    watch: {
+        selected: () => this.$refs[this.selected][0].focus()
     },
     computed: {
         indexOfSelected() {
