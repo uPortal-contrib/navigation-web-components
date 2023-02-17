@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+## [1.4.1][] - 2023-02-17
+
 -   fix: fixed a bug with maintenance mode hover/focus states on menu items
 
 ## [1.4.0][] - 2022-12-13
